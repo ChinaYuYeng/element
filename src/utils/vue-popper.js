@@ -1,9 +1,11 @@
-//作为下拉框或者tooltip浮动框的mixn，赋予下拉框下拉部分的位置操控
+//作为下拉框或者tooltip浮动框的mixn，赋予浮动部分的位置操控
 import Vue from 'vue';
+// PopupManager 这里主要使用他的z-index层级控制
 import {
   PopupManager
 } from 'element-ui/src/utils/popup';
 
+// 2个dom的相对位置计算库
 const PopperJS = Vue.prototype.$isServer ? function() {} : require('./popper');
 const stop = e => e.stopPropagation();
 
@@ -72,6 +74,7 @@ export default {
     },
 
     //监听--更新或者销毁悬浮跟随块操作
+    // mixin的组件通过这个属性开启浮动层计算
     showPopper(val) {
       if (this.disabled) {
         return;

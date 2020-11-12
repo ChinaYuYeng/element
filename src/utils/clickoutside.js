@@ -17,7 +17,7 @@ let seed = 0;
 
 function createDocumentHandler(el, binding, vnode) {
   return function(mouseup = {}, mousedown = {}) {
-    //不满足以下条件，就不触发，主要时判断包含关系，应该就是判断指令对应的el和mouseUp触发的元素的位置和mouseDown触发元素的位置关系，是否在el外面
+    //不满足以下条件，就不触发，主要判断包含关系，应该就是判断指令对应的el和mouseUp触发的元素的位置和mouseDown触发元素的位置关系，是否在el外面
     if (!vnode ||
       !vnode.context ||
       !mouseup.target ||
@@ -25,7 +25,7 @@ function createDocumentHandler(el, binding, vnode) {
       el.contains(mouseup.target) ||
       el.contains(mousedown.target) ||
       el === mouseup.target ||
-      (vnode.context.popperElm &&
+      (vnode.context.popperElm && // popperElm是在某些组件中定义的弹出层dom，在弹出层之前点击就关闭
       (vnode.context.popperElm.contains(mouseup.target) ||
       vnode.context.popperElm.contains(mousedown.target)))) return;
 
@@ -51,7 +51,7 @@ export default {
   bind(el, binding, vnode) {
     nodeList.push(el);
     const id = seed++;
-    //给dom元素设置自定义属性
+    //收集这个指令所在元素的信息，用于运行时判断执行
     el[ctx] = {
       id,
       documentHandler: createDocumentHandler(el, binding, vnode),

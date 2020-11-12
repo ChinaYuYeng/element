@@ -23,6 +23,7 @@
         } else if (this.direction === 'horizontal') {
           return false;
         }
+        // 自动判断,是否垂直布局还会判断子节点是否有header或者footer
         return this.$slots && this.$slots.default
           ? this.$slots.default.some(vnode => {
             const tag = vnode.componentOptions && vnode.componentOptions.tag;

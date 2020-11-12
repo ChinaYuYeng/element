@@ -30,6 +30,7 @@ export default {
     }
   },
   render(h) {
+    // 主要是根据条件组织class和style
     let classList = [];
     let style = {};
 

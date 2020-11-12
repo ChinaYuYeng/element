@@ -27,6 +27,7 @@
     name: 'ElButton',
 
     inject: {
+      // provide提供语义良好的key比较好，parent会相互顶替也有特殊作用
       elForm: {
         default: ''
       },
@@ -63,10 +64,12 @@
       },
       // 大小
       buttonSize() {
+        // this.$ELEMENT全局配置大小，这种设计也不错
         return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
       },
       // 是否可用
       buttonDisabled() {
+        // 这样的设计不错，可以单独设置disabled，也可以依赖父组件。既能单独使用，又能联合使用
         return this.disabled || (this.elForm || {}).disabled;
       }
     },

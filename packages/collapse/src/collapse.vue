@@ -58,7 +58,7 @@
               ? '' : item.name
           );
         } else {
-          let activeNames = this.activeNames.slice(0);//转换成数组
+          let activeNames = this.activeNames.slice(0);//浅拷贝拷贝数组
           let index = activeNames.indexOf(item.name);
             //有就删除
           if (index > -1) {

@@ -123,12 +123,14 @@
         if ({}.toString.call(this.model) === '[object Boolean]') {
           return this.model;
         } else if (Array.isArray(this.model)) {
+          // 如果model是数组，那么label一定要赋值。比如 <el-checkbox label="复选框 A"></el-checkbox>而不能 <el-checkbox>复选框 A</el-checkbox>，原因见vue源码对input是checkbox的v-model处理
           return this.model.indexOf(this.label) > -1;
         } else if (this.model !== null && this.model !== undefined) {
           return this.model === this.trueLabel;
         }
       },
 
+      // 寻找是否在group内
       isGroup() {
         let parent = this.$parent;
         while (parent) {

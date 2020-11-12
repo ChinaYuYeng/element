@@ -30,6 +30,8 @@
     computed: {
       //当前颜色
       colorValue() {
+        // color虽然是个new的实例，但是依然是个对象{hue:'',value:''}
+        // 在this.color.set改变value的时候会触发计算属性watch重新计算，进而触发下方的watch，进行背景色更新
         const hue = this.color.get('hue');
         const value = this.color.get('value');
         return { hue, value };

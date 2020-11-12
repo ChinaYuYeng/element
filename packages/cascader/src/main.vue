@@ -272,8 +272,14 @@ export default {
   },
 
   methods: {
-    // 实例化menu组件，初始化数据，这样做的好处是什么
+    // 实例化menu组件，初始化数据，这样做的好处是什么？
+    // 2020.9.23 二次回看：这样做的好处是，1：不用写template，直接创建游离的dom，可以把dom，append到任何地方，特别是浮动窗口，并不需要dom的层级关系。
+    // 2：这个组件不需要props传递，直接通过this.xxx更改已经响应式的属性，来更新dom
+    // 3：你可以调用这个组件定义好的其他功能，这样的写法让父组件对子组件有完全的控制能力，但是子组件还是可以保持独立，而不依赖父组件
     initMenu() {
+      // 这里的menu是以ElCascaderMenu为选项创建的vm，同时进过渲染和patch生成了dom，只不过该dom是游离在dom树之外的
+      // $mount()没有挂载到dom树上，除此之外拥有所有vm的能力
+      // 没有挂载，popperElm在vue-popper中默认被挂载到body上
       this.menu = new Vue(ElCascaderMenu).$mount();
       this.menu.options = this.options;
       this.menu.props = this.props; // 这个props不是定义组件时的props，仅仅是data选项中的一个属性

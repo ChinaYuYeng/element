@@ -29,6 +29,8 @@ export default {
     const definedProps = data.attrs || {};
     const definedEvents = componentOptions.listeners || {};
 
+    // 针对过期，或者删除的属性进行提示
+    // 对于组件定义的props，版本删除的props，用户再一次使用时由于不会提取删除的props的值，该属性会保留attrs上，进而进行提示，详见create-component中propsData提取逻辑
     for (let propName in definedProps) {
       if (definedProps.hasOwnProperty(propName) && props[propName]) {
         console.warn(`[Element Migrating][${this.$options.name}][Attribute]: ${props[propName]}`);

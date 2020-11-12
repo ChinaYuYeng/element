@@ -71,7 +71,7 @@
 
     mixins: [Emitter, Focus('input'), Migrating],
 
-    inheritAttrs: false,
+    inheritAttrs: false,//避免在parentvnode设置的多余属性（去掉被组件定义的props）应用在根节点上。默认是应用在根节点上
 
     componentName: 'ElAutocomplete',
 
@@ -142,7 +142,7 @@
     },
     watch: {
       suggestionVisible(val) {
-        //通知建议框
+        //通知显示建议框
         this.broadcast('ElAutocompleteSuggestions', 'visible', [val, this.$refs.input.$refs.input.offsetWidth]);
       }
     },
@@ -224,7 +224,7 @@
           this.highlightedIndex = -1;
         });
       },
-      //高亮选中
+      //高亮显示项，并让其出现在可视区域内，有鼠标滚轮介入除外，只支持键盘up和down
       highlight(index) {
         if (!this.suggestionVisible || this.loading) { return; } //如果么有显示建议框，或者正在加载，退出
         if (index < 0) { //回到最初退出
@@ -235,6 +235,7 @@
         if (index >= this.suggestions.length) {
           index = this.suggestions.length - 1;
         }
+        // 以下都是为了计算项在可视区域中（纯键盘操作，一旦有鼠标滚轮介入，表现的就不好了），
         const suggestion = this.$refs.suggestions.$el.querySelector('.el-autocomplete-suggestion__wrap');
         const suggestionList = suggestion.querySelectorAll('.el-autocomplete-suggestion__list li');//li 原生dom
 

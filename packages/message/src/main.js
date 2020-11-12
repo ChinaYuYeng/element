@@ -33,7 +33,7 @@ const Message = function(options) {
     instance.$slots.default = [instance.message];//把虚拟dom给default slot
     instance.message = null;
   }
-  instance.vm = instance.$mount();//挂载，游离的dom （这里会导致循环引用，但不会报错？？？$mount()返回实例本身）
+  instance.vm = instance.$mount();//挂载，游离的dom （这里会导致循环引用，但只是自己引用自己还是可以释放资源的，$mount()返回实例本身，没必要这样赋值）
   document.body.appendChild(instance.vm.$el);//挂载到body
   instance.vm.visible = true;
   instance.dom = instance.vm.$el;

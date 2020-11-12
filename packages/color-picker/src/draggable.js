@@ -1,6 +1,7 @@
 import Vue from 'vue';
 let isDragging = false;
 
+// 定义拖动的逻辑框架，具体动作由options传入
 export default function(element, options) {
   if (Vue.prototype.$isServer) return;
   const moveFn = function(event) {
@@ -22,6 +23,7 @@ export default function(element, options) {
   };
   element.addEventListener('mousedown', function(event) {
     if (isDragging) return; //正在移动状态
+    // 这种事件定义方式简单，但是只能定义一个句柄，如果需要更细粒度的控制得用addEventListener
     document.onselectstart = function() { return false; };
     document.ondragstart = function() { return false; };
 

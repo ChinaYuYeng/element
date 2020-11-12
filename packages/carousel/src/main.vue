@@ -161,6 +161,7 @@ export default {
     },
 
     // 获得items
+    // 只显示ElCarouselItem
     updateItems() {
       this.items = this.$children.filter(child => child.$options.name === 'ElCarouselItem');
     },
@@ -242,6 +243,7 @@ export default {
   },
 
   created() {
+    // 左右箭头按钮点击，节流控制
     this.throttledArrowClick = throttle(300, true, index => {
       this.setActiveItem(index);
     });

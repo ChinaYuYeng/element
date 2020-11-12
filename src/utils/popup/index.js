@@ -1,5 +1,6 @@
 /**
- * 弹出框核心控制逻辑，弹出，关闭，z-index层控制
+ * 弹出框核心控制逻辑，弹出，关闭
+ * 弹窗可以有多个同时存在，但是遮罩同时只有一个
  */
 import Vue from 'vue';
 import merge from 'element-ui/src/utils/merge';
@@ -19,6 +20,7 @@ const getDOM = function(dom) {
   return dom;
 };
 
+// 组件混入以下逻辑，便拥有了弹窗的控制逻辑
 export default {
   props: {
     visible: {
@@ -55,7 +57,7 @@ export default {
     }
   },
 
-  //弹框注册
+  //把当前vm进行弹框注册
   beforeMount() {
     this._popupId = 'popup-' + idSeed++;
     PopupManager.register(this._popupId, this);
@@ -131,6 +133,7 @@ export default {
       if (this.willOpen && !this.willOpen()) return;
       if (this.opened) return;
 
+      // 防止visible多次切换，导致重复执行打开逻辑
       this._opening = true;
 
       const dom = getDOM(this.$el);
@@ -144,10 +147,12 @@ export default {
 
       if (modal) {
         if (this._closing) {
+          // 如果当前正在关闭，强行关闭
           PopupManager.closeModal(this._popupId);
           this._closing = false;
         }
         PopupManager.openModal(this._popupId, PopupManager.nextZIndex(), this.modalAppendToBody ? undefined : dom, props.modalClass, props.modalFade);
+        // 是否在弹窗时锁定滚动条
         if (props.lockScroll) {
           this.withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden');
           if (this.withoutHiddenClass) {
@@ -160,14 +165,17 @@ export default {
           if (scrollBarWidth > 0 && (bodyHasOverflow || bodyOverflowY === 'scroll') && this.withoutHiddenClass) {
             document.body.style.paddingRight = this.computedBodyPaddingRight + scrollBarWidth + 'px';
           }
+          // el-popup-parent--hidden 样式设置overflow：hidden。去掉滚动条
           addClass(document.body, 'el-popup-parent--hidden');
         }
       }
 
+
+      // 如果dom不是绝对定位，强制absolute
       if (getComputedStyle(dom).position === 'static') {
         dom.style.position = 'absolute';
       }
-
+      // 设置当前弹窗的层级
       dom.style.zIndex = PopupManager.nextZIndex();
       this.opened = true;
 
@@ -203,6 +211,7 @@ export default {
     },
 
     doClose() {
+      // 防止重复执行关闭逻辑
       this._closing = true;
 
       this.onClose && this.onClose();

@@ -150,6 +150,7 @@ const hsv2rgb = function(h, s, v) {
   };
 };
 
+// 颜色格式解析，转换工具
 export default class Color {
   constructor(options) {
     //4个计算颜色的参数

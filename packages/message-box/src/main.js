@@ -72,7 +72,7 @@ const defaultCallback = action => {
 //实例化
 const initInstance = () => {
   instance = new MessageBoxConstructor({
-    el: document.createElement('div') //挂载到一个新建的div，游离的呀？？ 完全可以不设置el
+    el: document.createElement('div') //挂载到一个新建的div，这个div只是触发mount方法，没有别的作用，之后在实例化的过程中还会被删除
     //data：options 实例化的时候可以传递data数据，但是这里是单例共用，属性只能后期赋值覆盖在showNextMsg
   });
 

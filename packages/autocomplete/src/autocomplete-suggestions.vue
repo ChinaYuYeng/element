@@ -71,6 +71,7 @@
       // 这个事件由父组件发起
       this.$on('visible', (val, inputWidth) => {
         this.dropdownWidth = inputWidth + 'px';
+        // 打开浮动层，同时计算位置
         this.showPopper = val;
       });
     }

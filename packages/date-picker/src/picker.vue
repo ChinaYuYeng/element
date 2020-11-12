@@ -1,6 +1,7 @@
 
 <template>
 <!-- 时间选择input框部分，分一个input框和2个input框（时间段） -->
+<!-- v-bind="firstInputId" 这个作用是批量绑定firstInputId中的属性-->
   <el-input
     class="el-date-editor"
     :class="'el-date-editor--' + type"
@@ -8,7 +9,7 @@
     :disabled="pickerDisabled"
     :size="pickerSize"
     :name="name"
-    v-bind="firstInputId"
+    v-bind="firstInputId" 
     v-if="!ranged"
     v-clickoutside="handleClose"
     :placeholder="placeholder"
